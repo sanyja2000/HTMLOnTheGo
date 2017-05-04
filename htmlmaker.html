@@ -1,0 +1,79 @@
+<html>
+<head>
+<title>HTML Maker</title>
+<meta charset="utf-8"/>
+<style id="stilus">
+body {margin:0;padding:0;}
+#output {
+	margin:0;
+	padding:0;
+}
+</style>
+</head>
+<body>
+<div id="output">
+</div>
+<script>
+alert("To add HTML, use F2.\nTo undo HTML, use Shift+F2.\n\nTo add CSS, use F7.\nTo undo CSS, use Shift+F7.");
+var lastHTML = [];
+var lastCSS = [];
+var CSSchange = [];
+var HTMLchange = [];
+var shiftK=false, controlK=false;
+function add(evt) {
+	if(evt.key=="Shift") {
+		shiftK=true;	
+	}
+	if(evt.key=="Control") {
+		controlK=true;	
+	}
+	if(evt.key=="F2" && !shiftK && !controlK){
+		a = prompt("HTML:");
+		lastHTML.push(document.getElementById("output").innerHTML);
+		document.getElementById("output").innerHTML+=a;
+		HTMLchange = lastHTML.slice();
+		console.log(HTMLchange);
+	}
+	if(evt.key=="F2" && shiftK && !controlK && lastHTML.length > 0) {
+		document.getElementById("output").innerHTML=lastHTML[lastHTML.length-1]
+		lastHTML.splice(lastHTML.length-1,1);
+		console.log("lastHTML: "+lastHTML);
+		console.log("HTMLchange: "+HTMLchange);
+	}
+	if(evt.key=="F2" && !shiftK && controlK && HTMLchange.length > 0) {
+		document.getElementById("output").innerHTML=HTMLchange[HTMLchange.length-1]
+		lastHTML=HTMLchange[HTMLchange.length-1];
+		console.log("Redone, HTMLchange="+HTMLchange);
+	}
+	if(evt.key=="F7" && !shiftK && !controlK){
+		a = prompt("CSS:");
+		lastCSS.push(document.getElementById("stilus").innerHTML);
+		document.getElementById("stilus").innerHTML+=a;
+		CSSchange = lastCSS.slice();
+	}
+	if(evt.key=="F7" && shiftK && !controlK && lastCSS.length > 0) {
+		document.getElementById("stilus").innerHTML=lastCSS[lastCSS.length-1];
+		lastCSS.splice(lastCSS.length-1,1);
+	}
+	if(evt.key=="F7" && !shiftK && controlK && CSSchange.length > 0) {
+		document.getElementById("stilus").innerHTML=CSSchange[CSSchange.length-1]
+		lastCSS=CSSchange[CSSchange.length-1];
+		console.log("Redone");
+	}
+}
+
+function dec(evt) {
+	if(evt.key=="Shift") {
+		shiftK=false;
+	}
+	if(evt.key=="Control") {
+		controlK=false;
+	}
+}
+
+document.addEventListener("keydown",add);
+document.addEventListener("keyup",dec);
+
+</script>
+</body>
+</html>
